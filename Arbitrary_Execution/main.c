@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Funzione "critica" che vogliamo eseguire sfruttando un overflow
+//This file contains a test for arbitrary execution trough the use of a dangling pointer
+
+//function we want to force execution of
 void critical_function() {
-    printf("Critical function executed!\n");
+    printf("successful arbitrary exec\n");
 }
 
-// Funzione innocua di default
 void harmless_function() {
     printf("Harmless function executed.\n");
 }
@@ -16,7 +17,6 @@ void dangling_pointer_test() {
     void (*func_ptr)() = harmless_function;
     char *buffer = malloc(16);
 
-    // Forza l'allocazione del puntatore a funzione nello heap
     void **ptr_in_heap = malloc(sizeof(void *));
     *ptr_in_heap = func_ptr;
 
@@ -24,10 +24,9 @@ void dangling_pointer_test() {
 
     free(buffer);
 
-    // Sovrascrive l'area con il dangling pointer
+    // overwrite with dangling pointer
     strcpy(buffer, (char *)&critical_function);
 
-    // Recupera il valore corrotto
     func_ptr = *ptr_in_heap;
     func_ptr();
 }

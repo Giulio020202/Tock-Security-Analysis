@@ -32,7 +32,7 @@ int main(void) {
   }
 
   printf("buffer: %s\n", buffer);
-  //strcpy(buffer,"ciaociao"); //*** buffer overflow detected ***: terminated
+  //strcpy(buffer,"bufferbuffer"); //*** buffer overflow detected ***: terminated
   if (fp != 0){
     printf("function pointer: 0x%08x\n",fp);
     fp();
